@@ -1,0 +1,99 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+.arrows {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 180px;
+}
+.arrow-2,.arrow-1, .arrow-3 {
+  background: white;
+  display: block;
+  width: 26px;
+  height: 132px;
+  position: relative;
+}
+.arrow-2::before {
+  content: '';
+  position: absolute;
+  top: -70px;
+  right: -37px;
+  height: 20px;
+  width: 100px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 0 50px 75px 50px;
+  border-color: transparent transparent #ffff transparent;
+  display: block;
+}
+.arrow-3::before {
+  content: '';
+  position: absolute;
+  top: -70px;
+  right: -37px;
+  height: 20px;
+  width: 100px;
+  border-style: solid;
+  border-width: 0 50px 75px 50px;
+  border-color: transparent transparent #ffff transparent;
+  border-radius: 5px;
+  display: block;
+}
+.arrow-3 {
+  transform: rotate(45deg);
+  width: 26px;
+  height: 120px;
+  margin-bottom: 0px;
+  bottom: -9px;
+  left: -30px;
+}
+.arrow-1::before {
+  content: '';
+  position: absolute;
+  top: -70px;
+  right: -37px;
+  height: 20px;
+  width: 100px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 0 50px 75px 50px;
+  border-color: transparent transparent #ffff transparent;
+  display: block;
+}
+.arrow-1 {
+  transform: rotate(-45deg);
+  width: 26px;
+  height: 120px;
+  margin-bottom: 0px;
+  bottom: -9px;
+  left: 30px;
+}
+button {
+  background: #7F1C34;
+  color: white;
+  box-shadow: 2px 2px 16px -4px #000000;
+  font-weight: 600;
+  border-radius: 5px;
+  height: 50px;
+  width: 150px;
+}
