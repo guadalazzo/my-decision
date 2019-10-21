@@ -1,7 +1,10 @@
 import React from 'react';
 import './styles.css';
 
-function App() {
+function App(props) {
+    const handleClick = () => {
+        props.history.push("/new-dilemma");
+    }
   return (
     <div className="App">
       <header className="App-header">
@@ -10,7 +13,7 @@ function App() {
             <span className="arrow-2"></span>
             <span className="arrow-3"></span>
         </section>
-        <button>New Decision</button> 
+        <button onClick={handleClick}>New Decision</button> 
       </header>
     </div>
   );

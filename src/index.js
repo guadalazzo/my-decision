@@ -5,11 +5,14 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './reset.css';
 import Home from './pages/Home';
+import Dilemmas from './pages/Dilemmas';
+
 
 ReactDOM.render(
 <Router>
     <Switch>
       <Route exact path='/' component={Home} />
+      <Route exact path='/new-dilema' component={Dilemmas} />
     </Switch>
   </Router>, document.getElementById('root'));
 
