@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import './reset.css';
+import './reset.scss';
 import Home from './pages/Home';
-import Dilemmas from './pages/Dilemmas';
+import NewDilema from './pages/NewDilemma';
 
 
 ReactDOM.render(
 <Router>
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route exact path='/new-dilema' component={Dilemmas} />
+      <Route exact path='/new-dilemma' component={NewDilema} />
     </Switch>
   </Router>, document.getElementById('root'));
 

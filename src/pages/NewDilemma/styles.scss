@@ -1,0 +1,55 @@
+$color-1:#475E4F;
+$color-2:#3B485D;
+$color-3: #475E4F;
+$color-4: #888B72;
+$color-5: #7F1C34;
+
+.App {
+  background-color: #282c34;
+}
+header {
+  height: 20vh;
+  display: flex;
+  input {
+    width: 80%;
+    padding: 5px;
+    margin: auto;
+  }
+}
+article {
+  width: 80%;
+  height: 65%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  .pros {
+    padding: 5px;
+    flex-grow: 1;
+    position: relative;
+    button {
+      width: 80%;
+      position: absolute;
+      bottom: 0;
+      left :0;
+      font-size: 14px;
+    }
+  }
+  .line {
+    display: block;
+    width: 1px;
+    background-color: #3B485D;
+  }
+  .cons {
+    padding: 5px;
+    flex-grow: 1;
+    position: relative;
+    button {
+      width: 80%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 14px;
+    }
+  }
+ 
+}
