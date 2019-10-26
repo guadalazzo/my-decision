@@ -4,7 +4,7 @@ const Argument = (props) => {
     const {text} = props;
     return (
         <section className="argument-container">
-            <i class="fas fa-check"></i>
+            <i className="fas fa-check"></i>
             <p>{text}</p>
         </section>)
 }
