@@ -39,20 +39,12 @@ function NewDilemma() {
   const handleClose = () => {
     setShowModal(false);
   }
-  const add = (a, b) => a.point + b.point;
   const sum = (array) => {
     let count = 0;
-    switch (array.length) {
-      case 0:
-        count = 0;
-        break;
-      case 1:
-        count = array[0].point;
-        break;
-      default:
-        array.reduce(add);
-        break;
-    } 
+    array.length > 0 && array.forEach(element => {
+      count += element.point;
+      console.log(count, 'count');
+    });
     return count;
   }
   const getTotalCon = sum(conArgs);
@@ -77,12 +69,12 @@ function NewDilemma() {
       <article>
         <section className="pros">
          { proArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
-          <button onClick={() => handleClick('pro')} className="secondary">Add pro argument</button>
+          <button onClick={() => handleClick('pro')} className="secondary pro-btn">Add pro argument</button>
         </section>
         <span className="line"></span>
         <section className="cons">
           { conArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
-          <button onClick={() => handleClick('cons')} className="secondary">Add cons argument</button>
+          <button onClick={() => handleClick('cons')} className="secondary cons-btn">Add cons argument</button>
         </section>
       </article>
       <button>Save Dilemma</button>

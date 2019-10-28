@@ -35,7 +35,9 @@ header {
     box-sizing: border-box;
   }
 }
-
+button {
+  height: 40px;
+}
 article {
   width: 80%;
   height: 60%;
@@ -55,13 +57,16 @@ article {
       position: absolute;
       bottom: 0;
       left: 0;
+      &.pro-btn {
+        border: 2px solid #05da8e
+      }
     }
   }
 
   .line {
     display: block;
     width: 1px;
-    background-color: #3b485d;
+    background-color: #cccbcb;
   }
 
   .cons {
@@ -74,6 +79,9 @@ article {
       position: absolute;
       bottom: 0;
       right: 0;
+      &.cons-btn {
+        border: 2px solid #d01c54;
+      }
     }
   }
 }

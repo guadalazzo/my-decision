@@ -11,22 +11,25 @@ const Percent = styled.section`
 }`;
 const Pro = styled.span`
   display: block;
-  width: ${props => (props.amount() !== 0 ? `${props.amount()}%` : "50%")};
+  width: ${props => `${props.amount()}%`};
   height: 100%;
   background: #05da8e;
 `;
 const Cons = styled.span`
-    display: block;
-    height: 100%;
-    width: ${props => (props.amount() !== 0 ? `${props.amount()}%` : "50%")}
-    background: #d01c54;`;
+  display: block;
+  height: 100%;
+  width: ${props => `${props.amount()}%`};
+  background: #d01c54;
+`;
 const getPercentage = (amount, total) => {
   const percent = amount && total && Math.floor((amount / total) * 100);
+  console.log(amount, total, percent, "a t perc");
   return percent;
 };
 const PercentBar = props => {
   const { proAmount, conAmount } = props;
   const total = proAmount + conAmount;
+  console.log(total,'total');
   return (
     <Percent className="precent-container">
       <Pro amount={getPercentage.bind(this, proAmount, total)}></Pro>
