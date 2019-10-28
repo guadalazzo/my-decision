@@ -18,22 +18,35 @@ function NewDilemma() {
     setTitle(title);
     event.preventDefault();
   };
-  const handleSubmitArg = (arg) => {
-    console.log(arg,'arg');
-    if (arg.type === 'con') {
-      setConArg(arg);
+  const handleSubmitArg = (event,arg) => {
+    switch (arg.type) {
+      case 'cons':
+        setConArg(oldArray => [...oldArray, arg]);
+        break;
+      case 'pro':
+        setProArg(oldArray => [...oldArray, arg]);
+        break;
+      default: console.log('no arg');
+        break;
     }
-    setProArg(arg);
+    event.preventDefault();
   };
   const handleClick = (type) => {
     //argument button
     setArgType(type);
     setShowModal(true);
-    console.log('type and show', argType, showModal);
   }
   const handleClose = () => {
     setShowModal(false);
   }
+  const add = (a, b) => a.point + b.point;
+  const sum = (array) => {
+    let count = array.length === 0 ? 0 : array.reduce(add);
+    return count;
+  }
+  const getTotalCon = sum(conArgs);
+  const getTotalPro = sum(proArgs);
+  console.log('getTotalCon',getTotalCon,'getTotalPro', getTotalPro);
   return (
     <div className="App">
       <header>
@@ -50,17 +63,16 @@ function NewDilemma() {
           />
         </form>
       </header>
-      <PercentBar />
+      <PercentBar proAmount={getTotalPro} conAmount={getTotalCon} />
       <article>
         <section className="pros">
-          <Argument text="bla bla bla" />
-          <Argument text="lorem ipsum rtas aksj ereras " />
-          <button onClick={handleClick.bind(this,'pro')} className="secondary">Add pro argument</button>
+         { proArgs.map((arg, index) => (<Argument key={`arg-${index}`} text={arg.title} />))}
+          <button onClick={() => handleClick('pro')} className="secondary">Add pro argument</button>
         </section>
         <span className="line"></span>
         <section className="cons">
-          <Argument text="bla bla bla" />
-          <button onClick={handleClick.bind(this,'cons')} className="secondary">Add cons argument</button>
+          { conArgs.map((arg, index) => (<Argument key={`arg-${index}`} text={arg.title} />))}
+          <button onClick={() => handleClick('cons')} className="secondary">Add cons argument</button>
         </section>
       </article>
       <button>Save Dilemma</button>

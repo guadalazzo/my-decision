@@ -8,12 +8,7 @@ const ArgumentModal = props => {
 
   const { type, handleClose, handleSubmitArg} = props;
   const handleSubmit = (event) => {
-    const arg = {
-        title: title, 
-        type: type,
-        point: point,
-    };
-    handleSubmitArg(arg)
+
     event.preventDefault();
   }
   const handleChange = (event) => {
@@ -22,12 +17,24 @@ const ArgumentModal = props => {
    const handleSwiperChange = (event) => {
     setPoint(event.target.value);
    }
+   const handleClick = (event) => {
+    const arg = {
+      title: title, 
+      type: type,
+      point: parseInt(point, 10),
+    };
+    handleSubmitArg(event,arg)
+    handleClose();
+    event.preventDefault();
+   }
   return (
     <div className="modal-container">
+     
+      <form onSubmit={handleSubmit}>
       <span className="close" onClick={handleClose}>
         x
       </span>
-      <form onSubmit={handleSubmit}>
+        <label htmlFor="title">Include your {type} argument</label>
         <input
           placeholder=" Add your argument"
           type="text"
@@ -35,7 +42,17 @@ const ArgumentModal = props => {
           name="title"
           onChange={handleChange}
         ></input>
-        <input onChange={handleSwiperChange} type="range" name="points" min="0" max="10"/>
+        <label>Rate the relevance</label>
+        <input 
+          onChange={handleSwiperChange} 
+          type="range"
+          value={point}
+          id="importance" 
+          name="points" 
+          min="0" 
+          max="10"
+        />
+        <button onClick={handleClick}>Submit</button>
       </form>
     </div>
   );
