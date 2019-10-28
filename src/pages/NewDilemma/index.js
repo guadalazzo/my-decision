@@ -41,12 +41,22 @@ function NewDilemma() {
   }
   const add = (a, b) => a.point + b.point;
   const sum = (array) => {
-    let count = array.length === 0 ? 0 : array.reduce(add);
+    let count = 0;
+    switch (array.length) {
+      case 0:
+        count = 0;
+        break;
+      case 1:
+        count = array[0].point;
+        break;
+      default:
+        array.reduce(add);
+        break;
+    } 
     return count;
   }
   const getTotalCon = sum(conArgs);
   const getTotalPro = sum(proArgs);
-  console.log('getTotalCon',getTotalCon,'getTotalPro', getTotalPro);
   return (
     <div className="App">
       <header>
@@ -66,12 +76,12 @@ function NewDilemma() {
       <PercentBar proAmount={getTotalPro} conAmount={getTotalCon} />
       <article>
         <section className="pros">
-         { proArgs.map((arg, index) => (<Argument key={`arg-${index}`} text={arg.title} />))}
+         { proArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
           <button onClick={() => handleClick('pro')} className="secondary">Add pro argument</button>
         </section>
         <span className="line"></span>
         <section className="cons">
-          { conArgs.map((arg, index) => (<Argument key={`arg-${index}`} text={arg.title} />))}
+          { conArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
           <button onClick={() => handleClick('cons')} className="secondary">Add cons argument</button>
         </section>
       </article>

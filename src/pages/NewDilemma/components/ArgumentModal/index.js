@@ -4,7 +4,7 @@ import "./styles.scss";
 const ArgumentModal = props => {
 
   const [title, setTitle] = useState("");
-  const [point, setPoint] = useState("");
+  const [point, setPoint] = useState(0);
 
   const { type, handleClose, handleSubmitArg} = props;
   const handleSubmit = (event) => {
@@ -15,13 +15,13 @@ const ArgumentModal = props => {
     setTitle(event.target.value);
    }
    const handleSwiperChange = (event) => {
-    setPoint(event.target.value);
+    setPoint(Number(event.target.value));
    }
    const handleClick = (event) => {
     const arg = {
       title: title, 
       type: type,
-      point: parseInt(point, 10),
+      point: point,
     };
     handleSubmitArg(event,arg)
     handleClose();

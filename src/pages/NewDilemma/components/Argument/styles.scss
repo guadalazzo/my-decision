@@ -1,5 +1,4 @@
 .argument-container {
-    border: 1px solid;
     color: #ffffff;
     height: fit-content;
     font-size: 13px;
@@ -8,5 +7,11 @@
         width: 100%;
         height: 100%;
         padding: 3px;
+    }
+    &.pro-arg{
+        border: 2px solid #05da8e;
+    }
+    &.cons-arg{
+        border: 2px solid #d01c54;
     }
 }
