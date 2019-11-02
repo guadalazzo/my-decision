@@ -33,6 +33,9 @@ header {
     padding: 3px;
     margin: auto;
     box-sizing: border-box;
+    &.alert {
+      border: 2px solid red;
+    }
   }
 }
 button {

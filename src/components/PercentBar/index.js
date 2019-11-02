@@ -23,13 +23,11 @@ const Cons = styled.span`
 `;
 const getPercentage = (amount, total) => {
   const percent = amount && total && Math.floor((amount / total) * 100);
-  console.log(amount, total, percent, "a t perc");
   return percent;
 };
 const PercentBar = props => {
   const { proAmount, conAmount } = props;
   const total = proAmount + conAmount;
-  console.log(total,'total');
   return (
     <Percent className="precent-container">
       <Pro amount={getPercentage.bind(this, proAmount, total)}></Pro>

@@ -5,6 +5,7 @@ const ArgumentModal = props => {
 
   const [title, setTitle] = useState("");
   const [point, setPoint] = useState(0);
+  const [required, setRequired] = useState(false);
 
   const { type, handleClose, handleSubmitArg} = props;
   const handleSubmit = (event) => {
@@ -23,8 +24,11 @@ const ArgumentModal = props => {
       type: type,
       point: point,
     };
-    handleSubmitArg(event,arg)
-    handleClose();
+    if ( title !== '' && point !== 0) {
+      handleSubmitArg(event,arg)
+      handleClose();
+    }
+    setRequired(true);
     event.preventDefault();
    }
   return (
@@ -34,22 +38,24 @@ const ArgumentModal = props => {
       <span className="close" onClick={handleClose}>
         x
       </span>
-        <label htmlFor="title">Include your {type} argument</label>
+        <label className={`${required ? 'alert':''}`} htmlFor="title">Include your {type} argument</label>
         <input
+          className={`${required ? 'alert':''}`}
           placeholder=" Add your argument"
           type="text"
           id="title"
           name="title"
           onChange={handleChange}
         ></input>
-        <label>Rate the relevance</label>
+        <label className={`${required ? 'alert':''}`} >Rate the relevance</label>
         <input 
+          className={`${required ? 'alert':''}`}
           onChange={handleSwiperChange} 
           type="range"
           value={point}
           id="importance" 
           name="points" 
-          min="0" 
+          min="1" 
           max="10"
         />
         <button onClick={handleClick}>Submit</button>

@@ -25,10 +25,16 @@
     background: #0d3e3e;
     input {
       width: 80%;
+      &.alert {
+        border: 2px solid red;
+      }
     }
     label {
       color: white;
       font-weight: 600;
+      &.alert {
+        color: red;
+      }
     }
     button {
       height: 25px;

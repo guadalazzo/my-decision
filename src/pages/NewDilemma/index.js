@@ -10,6 +10,8 @@ function NewDilemma() {
   const [ conArgs, setConArg ] = useState([]);
   const [ argType, setArgType] = useState("");
   const [ showModal, setShowModal ] = useState(false);
+  const [ required, setRequired ] = useState(false);
+
   const handleChange = event => {
     event.preventDefault();
     setTitle(event.target.value);
@@ -43,18 +45,25 @@ function NewDilemma() {
     let count = 0;
     array.length > 0 && array.forEach(element => {
       count += element.point;
-      console.log(count, 'count');
     });
     return count;
   }
   const getTotalCon = sum(conArgs);
   const getTotalPro = sum(proArgs);
+  const handleDilemmaSubmit = () => {
+    if (title === '') {
+      setRequired(true);
+    }
+    
+    setRequired(false);
+  }  
   return (
     <div className="App">
       <header>
         {title && <h1>{title}</h1>}
         <form onSubmit={handleSubmit}>
           <input
+            className={required ? 'alert':''}
             placeholder=" Add your dilemma"
             type="text"
             id="title"
@@ -77,7 +86,7 @@ function NewDilemma() {
           <button onClick={() => handleClick('cons')} className="secondary cons-btn">Add cons argument</button>
         </section>
       </article>
-      <button>Save Dilemma</button>
+      <button onClick={handleDilemmaSubmit} >Save Dilemma</button>
       {showModal && <ArgumentModal type={argType} handleClose={handleClose} handleSubmitArg={handleSubmitArg}/>}
     </div>
   );
