@@ -3,10 +3,15 @@ import "./styles.scss";
 import PercentBar from "../../components/PercentBar";
 import Argument from "./components/Argument";
 import ArgumentModal from "./components/ArgumentModal";
+import axios from "axios";
 
-function NewDilemma() {
-  const [title, setTitle] = useState("");
+function NewDilemma(props) {
+  const [ title, setTitle ] = useState("");
+  const [ errorMessage, setError ] = useState("");
   const [ proArgs, setProArg ] = useState([]);
+  const [ totalPro, setTotalPro ] = useState(0);
+  const [ totalCons, setTotalCons ] = useState(0);
+  const [ totalPoints, setTotalPoints ] = useState(0);
   const [ conArgs, setConArg ] = useState([]);
   const [ argType, setArgType] = useState("");
   const [ showModal, setShowModal ] = useState(false);
@@ -14,13 +19,16 @@ function NewDilemma() {
 
   const handleChange = event => {
     event.preventDefault();
+    setError('');
     setTitle(event.target.value);
   };
   const handleSubmit = (event) => {
+    setError('');
     setTitle(title);
     event.preventDefault();
   };
   const handleSubmitArg = (event,arg) => {
+    setError('');
     switch (arg.type) {
       case 'cons':
         setConArg(oldArray => [...oldArray, arg]);
@@ -35,6 +43,7 @@ function NewDilemma() {
   };
   const handleClick = (type) => {
     //argument button
+    setError('');
     setArgType(type);
     setShowModal(true);
   }
@@ -51,15 +60,34 @@ function NewDilemma() {
   const getTotalCon = sum(conArgs);
   const getTotalPro = sum(proArgs);
   const handleDilemmaSubmit = () => {
-    if (title === '') {
+    setError('');
+    setTotalCons(getTotalCon);
+    setTotalPro(getTotalCon);
+    setTotalPoints(getTotalPro + getTotalCon);
+    if (title === '' || conArgs.length === 0 || proArgs.length === 0) {
       setRequired(true);
+      return setError('Please charge title and arguments');
     }
-    
     setRequired(false);
+    console.log('me cargue');
+    axios
+    .post('https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma',{
+      title,
+      proArgs,
+      conArgs,
+      totalCons,
+      totalPro,
+      totalPoints,
+    })
+    .then(response => {
+      props.history.push("/dilemmas");
+      console.log(response.data)})
+    .catch(err => console.log('Err',err))
   }  
   return (
     <div className="App">
       <header>
+        {errorMessage !== '' && alert(errorMessage) }
         {title && <h1>{title}</h1>}
         <form onSubmit={handleSubmit}>
           <input

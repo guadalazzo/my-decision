@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './reset.scss';
 import Home from './pages/Home';
 import NewDilema from './pages/NewDilemma';
+import Dilemmas from './pages/Dilemmas';
 
 
 ReactDOM.render(
@@ -13,6 +14,8 @@ ReactDOM.render(
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/new-dilemma' component={NewDilema} />
+      <Route exact path='/dilemmas' component={Dilemmas} />
+
     </Switch>
   </Router>, document.getElementById('root'));
 

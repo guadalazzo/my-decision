@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const cors = require('cors')
 const app = require('express')();
+app.use(cors());
 const firebaseConfig = {
   apiKey: "AIzaSyC6jqSd1gNorT5Y2CtHUX8B-1pxJE78e-A",
   authDomain: "my-decision-ad541.firebaseapp.com",
@@ -15,6 +17,7 @@ admin.initializeApp(firebaseConfig);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 
+/* Get all dilemmas */
 app.get('/dilemmas', (req,res) => {
   admin.firestore().collection('dilemmas').get()
   .then(data => {
@@ -27,6 +30,7 @@ app.get('/dilemmas', (req,res) => {
   .catch(err=>{console.log('Error with getting dillemmas', err)});
 });
 
+/* Get a dilemma */
 
 app.get('/dilemma/:id', (req,res) => {
   let dilemmaData = {};
@@ -47,11 +51,37 @@ app.get('/dilemma/:id', (req,res) => {
     });
 });
 
+/* Delete a dilemma */
+
+app.delete('/dilemma/:id', (req,res) => {
+
+  const document = admin.firestore().doc(`/dilemmas/${req.params.id}`);
+  document
+  .get()
+  .then((doc) => {
+    if (!doc.exists) {
+      return res.status(404).json({ error: 'Dilemma not found' });
+    }
+    return document.delete();
+  })
+  .then(() => 
+    res.json({ message: 'Dilemma deleted successfully' })
+  )
+  .catch((err) => {
+    console.error(err);
+    return res.status(500).json({ error: err.code });
+  });
+});
+/* Create a dilemma */
+
 app.post('/dilemma', (req,res) => { //  crea dilemmas en el array de dilemmas
   const newDilemma = { 
     title: req.body.title, 
     conArgs: req.body.conArgs,
     proArgs: req.body.proArgs,
+    totalPro: req.body.totalPro,
+    totalCons: req.body.totalCons,
+    totalPoints: req.body.totalPoints,
   };
   admin.firestore()
   .collection('dilemmas')
