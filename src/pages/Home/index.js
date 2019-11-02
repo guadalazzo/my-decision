@@ -5,6 +5,7 @@ import axios from 'axios';
 function App(props) {
 
   const [ hasDilemmas,setHasDilemma ] =  useState(false);
+  const [ isLoading, setLoading ] = useState(true);
   useEffect(() => {
     axios
       .get(
@@ -12,6 +13,7 @@ function App(props) {
       )
       .then(response => {
         setHasDilemma(response.data.length !== 0);
+        setLoading(false);
         return response.data;
       });
   }, []);
@@ -21,6 +23,7 @@ function App(props) {
   }
   return (
     <div className="App">
+      {!isLoading && 
       <header className="App-header">
         <section className="arrows">
             <span className="arrow-1"></span>
@@ -28,7 +31,7 @@ function App(props) {
             <span className="arrow-3"></span>
         </section>
         <button onClick={handleClick}>New Decision</button> 
-      </header>
+      </header>}
     </div>
   );
 }

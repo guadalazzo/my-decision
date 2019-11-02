@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import PercentBar from "../../components/PercentBar";
-import Argument from "./components/Argument";
+import Argument from "../../components/Argument";
 import ArgumentModal from "./components/ArgumentModal";
 import axios from "axios";
 

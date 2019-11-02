@@ -1,9 +1,14 @@
-import React,{ useEffect, useState }from 'react';
+import React,{ useEffect, useState } from 'react';
 import axios from 'axios';
+import Argument from '../../components/Argument';
 import './styles.scss';
 
-function Dilemmas() {
-  const [ dilemmas, setDilemmas ] = useState([]); 
+function Dilemmas(props) {
+  const [ dilemmas, setDilemmas ] = useState([]);
+  
+  const handleClick = () => {
+    props.history.push("/new-dilemma")
+  }
   useEffect(() => {
     axios
       .get(
@@ -16,12 +21,16 @@ function Dilemmas() {
   }, []);
   return (
     <div className="App">
-      {dilemmas && dilemmas.map(dilemma => (
-        <section>
-          <p>{dilemma.title}</p>
-          
-        </section>
-      ))}
+      <header>
+      <h1>Your Dilemmas</h1>
+      </header>  
+      <div className="dilemmas">
+      {dilemmas && dilemmas.map((dilemma, index) => {
+        const type = dilemma.totalPro > dilemma.totalCons ? 'pro': 'cons';
+        return <Argument key={index.toString()} text={dilemma.title} type={type} />
+      })}
+      </div>
+      <button onClick={handleClick}>New Decision</button>
     </div>
   );
 }
