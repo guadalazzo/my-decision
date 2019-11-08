@@ -34,15 +34,16 @@ app.get('/dilemmas', (req,res) => {
 
 app.get('/dilemma/:id', (req,res) => {
   let dilemmaData = {};
-
-  admin.firestore().doc(`/dilemmas/${req.params.id}`)
+  admin.firestore()
+    .collection("dilemmas")
+    .where("id", "==", req.params.id)
+    .limit(1)
     .get()
     .then((doc) => {
-      if (!doc.exists) {
+      if (!doc.docs[0].exists) {
         return res.status(404).json({ error: 'Dilemma not found' });
       }
-     dilemmaData = doc.data();
-     dilemmaData.id = doc.id;
+      dilemmaData = doc.docs[0].data();
       return res.json(dilemmaData);
     })
     .catch((err) => {
@@ -55,27 +56,69 @@ app.get('/dilemma/:id', (req,res) => {
 
 app.delete('/dilemma/:id', (req,res) => {
 
-  const document = admin.firestore().doc(`/dilemmas/${req.params.id}`);
+  const document = admin.firestore()
+    .collection("dilemmas")
+    .where("id", "==", req.params.id)
+    .limit(1);
   document
-  .get()
-  .then((doc) => {
-    if (!doc.exists) {
-      return res.status(404).json({ error: 'Dilemma not found' });
-    }
-    return document.delete();
-  })
+    .get()
+    .then((doc) => {
+      if (!doc.docs[0].exists) {
+        return res.status(404).json({ error: 'Dilemma not found' });
+      }
+      return admin.firestore().doc(`/dilemmas/${doc.docs[0].id}`).delete();
+    })
   .then(() => 
     res.json({ message: 'Dilemma deleted successfully' })
   )
   .catch((err) => {
     console.error(err);
-    return res.status(500).json({ error: err.code });
+    return res.status(500).json({ error: err.code, message:'this is a error' });
   });
 });
+
+/* Update a dilemma */
+
+app.put('/dilemma/:id', (req,res) => {
+  const dilemmaData = {
+    title: req.body.title, 
+    conArgs: req.body.conArgs,
+    proArgs: req.body.proArgs,
+    totalPro: req.body.totalPro,
+    totalCons: req.body.totalCons,
+    totalPoints: req.body.totalPoints
+  };
+  const document = admin.firestore()
+    .collection("dilemmas")
+    .where("id", "==", req.params.id)
+    .limit(1);
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.docs[0].exists) {
+        return res.status(404).json({ error: 'Dilemma not found' });
+      }
+    
+      const theref = admin.database().ref('dilemmas/' + doc.docs[0].id);
+       //.update({})
+      return theref.update({dilemmaData});
+    
+      //return admin.firestore().doc(`/dilemmas/${doc.docs[0].id}`).delete();
+    })
+  .then(() => 
+    res.json({ message: 'Dilemma updated successfully' })
+  )
+  .catch((err) => {
+    console.error(err);
+    return res.status(500).json({ error: err.code, message:'this is a error' });
+  });
+});
+
 /* Create a dilemma */
 
 app.post('/dilemma', (req,res) => { //  crea dilemmas en el array de dilemmas
   const newDilemma = { 
+    id: Math.random().toString(26).slice(2),
     title: req.body.title, 
     conArgs: req.body.conArgs,
     proArgs: req.body.proArgs,

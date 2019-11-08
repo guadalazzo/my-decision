@@ -27,7 +27,7 @@ function Dilemmas(props) {
       <div className="dilemmas">
       {dilemmas && dilemmas.map((dilemma, index) => {
         const type = dilemma.totalPro > dilemma.totalCons ? 'pro': 'cons';
-        return <Argument key={index.toString()} text={dilemma.title} type={type} />
+        return <Argument key={index.toString()} text={dilemma.title} type={type} id={dilemma.id} setDilemmas={setDilemmas}/>
       })}
       </div>
       <button onClick={handleClick}>New Decision</button>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import PercentBar from "../../components/PercentBar";
 import Argument from "../../components/Argument";
 import ArgumentModal from "../../components/ArgumentModal";
 import axios from "axios";
 
-function NewDilemma(props) {
+function Dilemma(props) {
   const [ title, setTitle ] = useState("");
   const [ errorMessage, setError ] = useState("");
   const [ proArgs, setProArg ] = useState([]);
@@ -17,6 +17,19 @@ function NewDilemma(props) {
   const [ showModal, setShowModal ] = useState(false);
   const [ required, setRequired ] = useState(false);
 
+  useEffect(() => {
+      axios
+      .get(`https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma/${props.match.params.id}`)
+      .then(res => {
+        setTitle(res.data.title);
+        setProArg(res.data.proArgs);
+        setConArg(res.data.conArgs);
+        setTotalCons(res.data.totalCons);
+        setTotalPro(res.data.totalPro);
+        setTotalPoints(res.data.totalPoints);
+      } )
+      .catch(err => console.log('err',err));
+  }, []);
   const handleChange = event => {
     event.preventDefault();
     setError('');
@@ -52,14 +65,15 @@ function NewDilemma(props) {
   }
   const sum = (array) => {
     let count = 0;
-    array.length > 0 && array.forEach(element => {
+    array && array.length > 0 && array.forEach(element => {
       count += element.point;
     });
     return count;
   }
-  const getTotalCon = sum(conArgs);
-  const getTotalPro = sum(proArgs);
+    const getTotalCon = sum(conArgs);
+    const getTotalPro = sum(proArgs);
   const handleDilemmaSubmit = () => {
+   
     setError('');
     setTotalCons(getTotalCon);
     setTotalPro(getTotalCon);
@@ -70,19 +84,19 @@ function NewDilemma(props) {
     }
     setRequired(false);
     console.log('me cargue');
-    axios
-    .post('https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma',{
-      title,
-      proArgs,
-      conArgs,
-      totalCons,
-      totalPro,
-      totalPoints,
-    })
-    .then(response => {
-      props.history.push("/dilemmas");
-      console.log(response.data)})
-    .catch(err => console.log('Err',err))
+//     axios cambiar por un put a dilemma/:id
+//     .post('https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma',{
+//       title,
+//       proArgs,
+//       conArgs,
+//       totalCons,
+//       totalPro,
+//       totalPoints,
+//     })
+//     .then(response => {
+//       props.history.push("/dilemmas");
+//       console.log(response.data)})
+//     .catch(err => console.log('Err',err))
   }  
   return (
     <div className="App">
@@ -120,4 +134,4 @@ function NewDilemma(props) {
   );
 }
 
-export default NewDilemma;
+export default Dilemma;

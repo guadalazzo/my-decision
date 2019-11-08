@@ -7,6 +7,7 @@ import './reset.scss';
 import Home from './pages/Home';
 import NewDilema from './pages/NewDilemma';
 import Dilemmas from './pages/Dilemmas';
+import Dilemma from './pages/Dilemma';
 
 
 ReactDOM.render(
@@ -15,6 +16,8 @@ ReactDOM.render(
       <Route exact path='/' component={Home} />
       <Route exact path='/new-dilemma' component={NewDilema} />
       <Route exact path='/dilemmas' component={Dilemmas} />
+      <Route exact path='/dilemma/:id' component={Dilemma} />
+
 
     </Switch>
   </Router>, document.getElementById('root'));
