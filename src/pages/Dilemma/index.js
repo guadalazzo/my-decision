@@ -4,6 +4,7 @@ import PercentBar from "../../components/PercentBar";
 import Argument from "../../components/Argument";
 import ArgumentModal from "../../components/ArgumentModal";
 import axios from "axios";
+import { Loading } from '../../components/Loading';
 
 function Dilemma(props) {
   const [ title, setTitle ] = useState("");
@@ -16,6 +17,7 @@ function Dilemma(props) {
   const [ argType, setArgType] = useState("");
   const [ showModal, setShowModal ] = useState(false);
   const [ required, setRequired ] = useState(false);
+  const [ isLoading, setLoading ] = useState(true);
 
   useEffect(() => {
       axios
@@ -27,6 +29,7 @@ function Dilemma(props) {
         setTotalCons(res.data.totalCons);
         setTotalPro(res.data.totalPro);
         setTotalPoints(res.data.totalPoints);
+        setLoading(false);
       } )
       .catch(err => console.log('err',err));
   }, []);
@@ -83,53 +86,57 @@ function Dilemma(props) {
       return setError('Please charge title and arguments');
     }
     setRequired(false);
-    console.log('me cargue');
-//     axios cambiar por un put a dilemma/:id
-//     .post('https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma',{
-//       title,
-//       proArgs,
-//       conArgs,
-//       totalCons,
-//       totalPro,
-//       totalPoints,
-//     })
-//     .then(response => {
-//       props.history.push("/dilemmas");
-//       console.log(response.data)})
-//     .catch(err => console.log('Err',err))
+    axios
+    .put(`https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma/${props.match.params.id}`,{
+      title,
+      proArgs,
+      conArgs,
+      totalCons,
+      totalPro,
+      totalPoints,
+    })
+    .then(response => {
+      props.history.push("/dilemmas");
+    })
+
+    .catch(err => console.log('Err',err))
   }  
   return (
     <div className="App">
-      <header>
-        {errorMessage !== '' && alert(errorMessage) }
-        {title && <h1>{title}</h1>}
-        <form onSubmit={handleSubmit}>
-          <input
-            className={required ? 'alert':''}
-            placeholder=" Add your dilemma"
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            required
-            onChange={handleChange}
-          />
-        </form>
-      </header>
-      <PercentBar proAmount={getTotalPro} conAmount={getTotalCon} />
-      <article>
-        <section className="pros">
-         { proArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
-          <button onClick={() => handleClick('pro')} className="secondary pro-btn">Add pro argument</button>
-        </section>
-        <span className="line"></span>
-        <section className="cons">
-          { conArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
-          <button onClick={() => handleClick('cons')} className="secondary cons-btn">Add cons argument</button>
-        </section>
-      </article>
-      <button onClick={handleDilemmaSubmit} >Save Dilemma</button>
-      {showModal && <ArgumentModal type={argType} handleClose={handleClose} handleSubmitArg={handleSubmitArg}/>}
+      {isLoading ? <Loading /> : 
+      <>
+        <header>
+          {errorMessage !== '' && alert(errorMessage) }
+          {title && <h1>{title}</h1>}
+          <form onSubmit={handleSubmit}>
+            <input
+              className={required ? 'alert':''}
+              placeholder=" Add your dilemma"
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              required
+              onChange={handleChange}
+            />
+          </form>
+        </header>
+        <PercentBar proAmount={getTotalPro} conAmount={getTotalCon} />
+        <article>
+          <section className="pros">
+          { proArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
+            <button onClick={() => handleClick('pro')} className="secondary pro-btn">Add pro argument</button>
+          </section>
+          <span className="line"></span>
+          <section className="cons">
+            { conArgs.map((arg, index) => (<Argument type={arg.type} key={`arg-${index}`} text={arg.title} />))}
+            <button onClick={() => handleClick('cons')} className="secondary cons-btn">Add cons argument</button>
+          </section>
+        </article>
+        <button onClick={handleDilemmaSubmit} >Save Dilemma</button>
+        {showModal && <ArgumentModal type={argType} handleClose={handleClose} handleSubmitArg={handleSubmitArg}/>}
+      </>}
+      
     </div>
   );
 }

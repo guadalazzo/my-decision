@@ -7,8 +7,8 @@
     display: flex;
     justify-content: space-around;
     align-content: center;
+
     p {
-        width: 60%;
         height: 100%;
         padding: 3px;
     }
@@ -24,4 +24,7 @@
     &.con-arg{
         border: 2px solid #d01c54;
     }
+}
+.dilemmas .argument-container p {
+    width: 60%;
 }

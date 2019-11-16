@@ -12,6 +12,7 @@ const firebaseConfig = {
   messagingSenderId: "360805520567",
   appId: "1:360805520567:web:f5bb238cfbf590a5a8a932"
 };
+
 admin.initializeApp(firebaseConfig);
 
 // // Create and Deploy Your First Cloud Functions
@@ -86,7 +87,8 @@ app.put('/dilemma/:id', (req,res) => {
     proArgs: req.body.proArgs,
     totalPro: req.body.totalPro,
     totalCons: req.body.totalCons,
-    totalPoints: req.body.totalPoints
+    totalPoints: req.body.totalPoints,
+    id: req.params.id,
   };
   const document = admin.firestore()
     .collection("dilemmas")
@@ -98,15 +100,11 @@ app.put('/dilemma/:id', (req,res) => {
       if (!doc.docs[0].exists) {
         return res.status(404).json({ error: 'Dilemma not found' });
       }
-    
-      const theref = admin.database().ref('dilemmas/' + doc.docs[0].id);
-       //.update({})
-      return theref.update({dilemmaData});
-    
-      //return admin.firestore().doc(`/dilemmas/${doc.docs[0].id}`).delete();
+
+      return admin.firestore().collection("dilemmas").doc(doc.docs[0].id).update({...dilemmaData});
     })
   .then(() => 
-    res.json({ message: 'Dilemma updated successfully' })
+    res.json({ message: `Dilemma updated successfully` })
   )
   .catch((err) => {
     console.error(err);

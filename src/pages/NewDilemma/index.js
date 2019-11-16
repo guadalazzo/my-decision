@@ -69,7 +69,6 @@ function NewDilemma(props) {
       return setError('Please charge title and arguments');
     }
     setRequired(false);
-    console.log('me cargue');
     axios
     .post('https://us-central1-my-decision-ad541.cloudfunctions.net/api/dilemma',{
       title,
@@ -81,7 +80,7 @@ function NewDilemma(props) {
     })
     .then(response => {
       props.history.push("/dilemmas");
-      console.log(response.data)})
+    })
     .catch(err => console.log('Err',err))
   }  
   return (

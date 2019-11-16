@@ -1,7 +1,7 @@
 import React,{ useEffect, useState }from 'react';
 import './styles.scss';
 import axios from 'axios';
-
+import {Loading} from './../../components/Loading';
 function App(props) {
 
   const [ hasDilemmas,setHasDilemma ] =  useState(false);
@@ -23,7 +23,8 @@ function App(props) {
   }
   return (
     <div className="App">
-      {!isLoading && 
+      {isLoading ?  
+      <Loading /> :
       <header className="App-header">
         <section className="arrows">
             <span className="arrow-1"></span>
