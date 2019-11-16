@@ -3,14 +3,14 @@ const admin = require('firebase-admin');
 const cors = require('cors')
 const app = require('express')();
 app.use(cors());
-const firebaseConfig = {
-  apiKey: "AIzaSyC6jqSd1gNorT5Y2CtHUX8B-1pxJE78e-A",
-  authDomain: "my-decision-ad541.firebaseapp.com",
-  databaseURL: "https://my-decision-ad541.firebaseio.com",
-  projectId: "my-decision-ad541",
-  storageBucket: "my-decision-ad541.appspot.com",
-  messagingSenderId: "360805520567",
-  appId: "1:360805520567:web:f5bb238cfbf590a5a8a932"
+var firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.API_ID
 };
 
 admin.initializeApp(firebaseConfig);
